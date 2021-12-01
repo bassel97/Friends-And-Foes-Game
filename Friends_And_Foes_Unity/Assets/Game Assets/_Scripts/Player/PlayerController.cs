@@ -3,18 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerController : MonoBehaviour
+public class PlayerController : CharacterStateController
 {
     // Movement variables
-    public float PlayerSpeed = 1;
-    [Header("Movement")] [SerializeField] float _acceleration = 10.0f;
+    [Header("Movement")] [SerializeField] float _playerSpeed = 1;
+    [SerializeField] float _acceleration = 10.0f;
 
     // Jump Variables
     [SerializeField] LayerMask _obstaclesCollisionMask;
     [SerializeField] float _jumpHeight = 4.0f;
     [SerializeField] float _timeToJumpApex = 0.4f;
     float _gravity, _jumpInitialVelocity;
-    bool _jumped = false;
+    bool _jumpPressed = false;
     float _yVelocity;
 
     // Boundary
@@ -34,6 +34,15 @@ public class PlayerController : MonoBehaviour
     bool _isGrounded = false;
 
     float _sqrRootTwo = Mathf.Sqrt(2.0f);
+    public float PlayerSpeed { get { return _playerSpeed; } }
+    public float Gravity { get { return _gravity; } }
+    public float Y_Velocity { get { return _yVelocity; } set { _yVelocity = value; } }
+    public float JumpInitialVelocity { get { return _jumpInitialVelocity; } set { _jumpInitialVelocity = value; } }
+    public bool IsMovmentPressed { get { return _isMovmentPressed; } }
+    public bool JumpPressed { get { return _jumpPressed; } set { _jumpPressed = value; } }
+    public bool IsGrounded { get { return _isGrounded; } }
+    public Vector3 PlayerSpeedVector { get { return _playerSpeedVector; } }
+    public Vector3 RigidBodyVelocity { get { return _rigidBodyVelocity; } set { _rigidBodyVelocity = value; } }
 
     private void Awake()
     {
@@ -54,8 +63,10 @@ public class PlayerController : MonoBehaviour
         _jumpInitialVelocity = Mathf.Abs(_gravity) * _timeToJumpApex;
     }
 
-    private void Update()
+    protected override void Update()
     {
+        base.Update();
+
         // Handle Player Input
         HandlePlayerInputMovement(_playerInput.PlayerMove.Move.ReadValue<Vector2>());
 
@@ -74,38 +85,20 @@ public class PlayerController : MonoBehaviour
         _playerSpeedVector = Vector3.Lerp(_playerSpeedVector, _playerInputVector * (_isRunning ? _sqrRootTwo : 1.0f), Time.deltaTime * _acceleration);
         float groundSpeedValue = _playerSpeedVector.sqrMagnitude;
         _animator.SetFloat("Speed", groundSpeedValue);
-
-        Vector3 positionToLookAt = _playerSpeedVector;
-        if (_isMovmentPressed)
-        {
-            Quaternion currentRotation = transform.rotation;
-            Quaternion targetRotation = Quaternion.LookRotation(positionToLookAt);
-            transform.rotation = Quaternion.Slerp(currentRotation, targetRotation, Time.deltaTime * 15.0f);
-        }
     }
 
-    private void FixedUpdate()
+    protected override void FixedUpdate()
     {
-        _yVelocity = _isGrounded ? 0 : (_yVelocity + _gravity * Time.deltaTime);
+        base.FixedUpdate();
 
-        // Handle Jumping
-        if (_jumped)
-        {
-            _yVelocity = _jumpInitialVelocity;
-            _jumped = false;
-        }
-
-        // Setup Rigid body velocity
         _rigidBodyVelocity.y = _yVelocity;
-        _rigidBodyVelocity.x = _playerSpeedVector.x * PlayerSpeed;
-        _rigidBodyVelocity.z = _playerSpeedVector.z * PlayerSpeed;
         _rigidbody.velocity = _rigidBodyVelocity;
     }
 
 
     private void Jump()
     {
-        _jumped = true;
+        _jumpPressed = true;
         _animator.SetTrigger("Jump");
     }
 
