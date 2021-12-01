@@ -40,10 +40,6 @@ public class PlayerController : MonoBehaviour
         // Intializing the player inputs
         _playerInput = new PlayerInput();
 
-        _playerInput.PlayerMove.Move.started += HandlePlayerInputMovement;
-        _playerInput.PlayerMove.Move.performed += HandlePlayerInputMovement;
-        _playerInput.PlayerMove.Move.canceled += HandlePlayerInputMovement;
-
         _playerInput.PlayerMove.Run.started += HandlePlayerInputRunning;
         _playerInput.PlayerMove.Run.canceled += HandlePlayerInputRunning;
 
@@ -60,6 +56,9 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
+        // Handle Player Input
+        HandlePlayerInputMovement(_playerInput.PlayerMove.Move.ReadValue<Vector2>());
+
         // Setup bounds
         _bounds = _playerCollider.bounds;
         _bounds.Expand(_skinWidth * -2);
@@ -110,14 +109,12 @@ public class PlayerController : MonoBehaviour
         _animator.SetTrigger("Jump");
     }
 
-    private void HandlePlayerInputMovement(InputAction.CallbackContext context)
+    private void HandlePlayerInputMovement(Vector2 playerInput)
     {
-        Vector2 _playerInput = context.ReadValue<Vector2>();
+        _playerInputVector.x = playerInput.x;
+        _playerInputVector.z = playerInput.y;
 
-        _playerInputVector.x = _playerInput.x;
-        _playerInputVector.z = _playerInput.y;
-
-        _isMovmentPressed = _playerInput.sqrMagnitude > 0.0f;
+        _isMovmentPressed = playerInput.sqrMagnitude > 0.0f;
     }
 
     private void HandlePlayerInputRunning(InputAction.CallbackContext context)
