@@ -22,12 +22,12 @@ public class StateController : MonoBehaviour
         CurrentState.OnEnterAction(this);
     }
 
-    void OnDrawGizmos()
+    protected virtual void OnDrawGizmosSelected()
     {
         if (CurrentState != null)
         {
             Gizmos.color = CurrentState.SceneGizmoColor;
-            Gizmos.DrawWireSphere(transform.position, 0.333f);
+            Gizmos.DrawSphere(transform.position, 0.333f);
         }
     }
 }

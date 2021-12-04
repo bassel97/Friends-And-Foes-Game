@@ -10,15 +10,14 @@ public class CharacterJumpAction : Action
     {
         PlayerController playerController = (PlayerController)controller;
 
-        if (playerController.JumpPressed)
+        if (playerController.IsJumpPressed)
         {
             playerController.Y_Velocity = playerController.JumpInitialVelocity;
-            playerController.JumpPressed = false;
+            playerController.Animator.SetTrigger("Jump");
         }
     }
 
     public override void UpdateAction(StateController controller)
     {
-        
     }
 }

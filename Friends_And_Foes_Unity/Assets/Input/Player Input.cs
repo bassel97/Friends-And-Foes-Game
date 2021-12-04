@@ -41,6 +41,14 @@ public class @PlayerInput : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""Wall_Run"",
+                    ""type"": ""Button"",
+                    ""id"": ""b8d71385-05a5-4939-9530-54282f81715d"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -208,6 +216,28 @@ public class @PlayerInput : IInputActionCollection, IDisposable
                     ""action"": ""Jump"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a23f4253-8f98-499c-964b-1722b21407e9"",
+                    ""path"": ""<Gamepad>/rightShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Wall_Run"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c7468ee3-269f-44c3-b5a4-e44bbc3fba45"",
+                    ""path"": ""<Keyboard>/ctrl"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Wall_Run"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -219,6 +249,7 @@ public class @PlayerInput : IInputActionCollection, IDisposable
         m_PlayerMove_Move = m_PlayerMove.FindAction("Move", throwIfNotFound: true);
         m_PlayerMove_Run = m_PlayerMove.FindAction("Run", throwIfNotFound: true);
         m_PlayerMove_Jump = m_PlayerMove.FindAction("Jump", throwIfNotFound: true);
+        m_PlayerMove_Wall_Run = m_PlayerMove.FindAction("Wall_Run", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -271,6 +302,7 @@ public class @PlayerInput : IInputActionCollection, IDisposable
     private readonly InputAction m_PlayerMove_Move;
     private readonly InputAction m_PlayerMove_Run;
     private readonly InputAction m_PlayerMove_Jump;
+    private readonly InputAction m_PlayerMove_Wall_Run;
     public struct PlayerMoveActions
     {
         private @PlayerInput m_Wrapper;
@@ -278,6 +310,7 @@ public class @PlayerInput : IInputActionCollection, IDisposable
         public InputAction @Move => m_Wrapper.m_PlayerMove_Move;
         public InputAction @Run => m_Wrapper.m_PlayerMove_Run;
         public InputAction @Jump => m_Wrapper.m_PlayerMove_Jump;
+        public InputAction @Wall_Run => m_Wrapper.m_PlayerMove_Wall_Run;
         public InputActionMap Get() { return m_Wrapper.m_PlayerMove; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -296,6 +329,9 @@ public class @PlayerInput : IInputActionCollection, IDisposable
                 @Jump.started -= m_Wrapper.m_PlayerMoveActionsCallbackInterface.OnJump;
                 @Jump.performed -= m_Wrapper.m_PlayerMoveActionsCallbackInterface.OnJump;
                 @Jump.canceled -= m_Wrapper.m_PlayerMoveActionsCallbackInterface.OnJump;
+                @Wall_Run.started -= m_Wrapper.m_PlayerMoveActionsCallbackInterface.OnWall_Run;
+                @Wall_Run.performed -= m_Wrapper.m_PlayerMoveActionsCallbackInterface.OnWall_Run;
+                @Wall_Run.canceled -= m_Wrapper.m_PlayerMoveActionsCallbackInterface.OnWall_Run;
             }
             m_Wrapper.m_PlayerMoveActionsCallbackInterface = instance;
             if (instance != null)
@@ -309,6 +345,9 @@ public class @PlayerInput : IInputActionCollection, IDisposable
                 @Jump.started += instance.OnJump;
                 @Jump.performed += instance.OnJump;
                 @Jump.canceled += instance.OnJump;
+                @Wall_Run.started += instance.OnWall_Run;
+                @Wall_Run.performed += instance.OnWall_Run;
+                @Wall_Run.canceled += instance.OnWall_Run;
             }
         }
     }
@@ -318,5 +357,6 @@ public class @PlayerInput : IInputActionCollection, IDisposable
         void OnMove(InputAction.CallbackContext context);
         void OnRun(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
+        void OnWall_Run(InputAction.CallbackContext context);
     }
 }

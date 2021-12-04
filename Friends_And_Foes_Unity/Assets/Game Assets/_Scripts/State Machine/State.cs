@@ -15,7 +15,7 @@ public class State : ScriptableObject
 
     public void OnExitAction(StateController controller)
     {
-        for (int i = 0; i < Actions.Length; i++)
+        for (int i = 0; i < OnExitActions.Length; i++)
         {
             OnExitActions[i].UpdateAction(controller);
         }
@@ -23,7 +23,7 @@ public class State : ScriptableObject
 
     public void OnEnterAction(StateController controller)
     {
-        for (int i = 0; i < Actions.Length; i++)
+        for (int i = 0; i < OnEnterActions.Length; i++)
         {
             OnEnterActions[i].UpdateAction(controller);
         }

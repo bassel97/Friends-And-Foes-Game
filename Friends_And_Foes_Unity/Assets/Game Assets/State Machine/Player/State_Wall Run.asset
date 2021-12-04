@@ -10,16 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 62e4326ea3f045b47bd2129ead41e742, type: 3}
-  m_Name: State_InAir
+  m_Name: State_Wall Run
   m_EditorClassIdentifier: 
-  SceneGizmoColor: {r: 1, g: 0, b: 1, a: 1}
+  SceneGizmoColor: {r: 0, g: 0, b: 1, a: 1}
   Actions:
-  - {fileID: 11400000, guid: 02c52fdac27f1c2458efd2d6eb82aa95, type: 2}
-  - {fileID: 11400000, guid: 7a3e44ffb753ed14c86f52dd3df481d0, type: 2}
-  OnEnterActions: []
+  - {fileID: 11400000, guid: 053de2b05a8e7874fb6ff2fa1aae4ba5, type: 2}
+  - {fileID: 11400000, guid: f3d069d2aa3ecb547b35dea64d1a85c1, type: 2}
+  OnEnterActions:
+  - {fileID: 11400000, guid: d32dc8d318a23384c974dc92a0f1db15, type: 2}
   OnExitActions: []
   Transitions:
   - decision: {fileID: 11400000, guid: f965325b09786754780e516d4826d8b0, type: 2}
     trueState: {fileID: 11400000, guid: 31372143b8b95a54294b2ab038a1bce0, type: 2}
-  - decision: {fileID: 11400000, guid: 94fc366e62690a14681ee3fc450226c0, type: 2}
-    trueState: {fileID: 11400000, guid: 778d14fece2f4ab4f91704990d6c11aa, type: 2}
+  - decision: {fileID: 11400000, guid: 7ea31784d346fb140ac653ad1a46296f, type: 2}
+    trueState: {fileID: 11400000, guid: 17ac59f9baf3d3348b4d79aa10a28792, type: 2}
