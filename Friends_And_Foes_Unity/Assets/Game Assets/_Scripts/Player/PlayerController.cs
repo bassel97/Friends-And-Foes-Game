@@ -25,7 +25,7 @@ public class PlayerController : CharacterStateController
 
     // Boundary
     Bounds _bounds;
-    const float _skinWidth = 0.015f;
+    const float _skinWidth = 0.045f;
 
     // MonoBehaviour
     [Header("MonoBehaviour")] [SerializeField] Animator _animator;

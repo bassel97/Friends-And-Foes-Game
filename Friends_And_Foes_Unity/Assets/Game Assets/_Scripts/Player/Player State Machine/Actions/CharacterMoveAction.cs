@@ -19,7 +19,7 @@ public class CharacterMoveAction : Action
         {
             Quaternion currentRotation = playerController.transform.rotation;
             Quaternion targetRotation = Quaternion.LookRotation(positionToLookAt);
-            playerController.transform.rotation = Quaternion.Slerp(currentRotation, targetRotation, Time.deltaTime * 5.0f);
+            playerController.transform.rotation = Quaternion.Slerp(currentRotation, targetRotation, Time.deltaTime * 10.0f);
         }
     }
 
