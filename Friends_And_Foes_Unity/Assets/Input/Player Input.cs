@@ -27,6 +27,14 @@ public class @PlayerInput : IInputActionCollection, IDisposable
                     ""interactions"": """"
                 },
                 {
+                    ""name"": ""Look"",
+                    ""type"": ""Value"",
+                    ""id"": ""776cb9a3-6f1a-4031-ae6b-3e9a7a61caf1"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": ""NormalizeVector2"",
+                    ""interactions"": """"
+                },
+                {
                     ""name"": ""Run"",
                     ""type"": ""Value"",
                     ""id"": ""c3b6e7f1-ee54-447b-bd5c-c3f6119b3528"",
@@ -220,7 +228,7 @@ public class @PlayerInput : IInputActionCollection, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""a23f4253-8f98-499c-964b-1722b21407e9"",
-                    ""path"": ""<Gamepad>/rightShoulder"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -231,11 +239,33 @@ public class @PlayerInput : IInputActionCollection, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""c7468ee3-269f-44c3-b5a4-e44bbc3fba45"",
-                    ""path"": ""<Keyboard>/ctrl"",
+                    ""path"": ""<Keyboard>/space"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Wall_Run"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""00c96283-c5de-4ee0-92ed-fee704b82cd5"",
+                    ""path"": ""<Mouse>/delta"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Look"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e616df17-e068-48ea-91f7-0ae50673002f"",
+                    ""path"": ""<Gamepad>/rightStick"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Look"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -247,6 +277,7 @@ public class @PlayerInput : IInputActionCollection, IDisposable
         // Player Move
         m_PlayerMove = asset.FindActionMap("Player Move", throwIfNotFound: true);
         m_PlayerMove_Move = m_PlayerMove.FindAction("Move", throwIfNotFound: true);
+        m_PlayerMove_Look = m_PlayerMove.FindAction("Look", throwIfNotFound: true);
         m_PlayerMove_Run = m_PlayerMove.FindAction("Run", throwIfNotFound: true);
         m_PlayerMove_Jump = m_PlayerMove.FindAction("Jump", throwIfNotFound: true);
         m_PlayerMove_Wall_Run = m_PlayerMove.FindAction("Wall_Run", throwIfNotFound: true);
@@ -300,6 +331,7 @@ public class @PlayerInput : IInputActionCollection, IDisposable
     private readonly InputActionMap m_PlayerMove;
     private IPlayerMoveActions m_PlayerMoveActionsCallbackInterface;
     private readonly InputAction m_PlayerMove_Move;
+    private readonly InputAction m_PlayerMove_Look;
     private readonly InputAction m_PlayerMove_Run;
     private readonly InputAction m_PlayerMove_Jump;
     private readonly InputAction m_PlayerMove_Wall_Run;
@@ -308,6 +340,7 @@ public class @PlayerInput : IInputActionCollection, IDisposable
         private @PlayerInput m_Wrapper;
         public PlayerMoveActions(@PlayerInput wrapper) { m_Wrapper = wrapper; }
         public InputAction @Move => m_Wrapper.m_PlayerMove_Move;
+        public InputAction @Look => m_Wrapper.m_PlayerMove_Look;
         public InputAction @Run => m_Wrapper.m_PlayerMove_Run;
         public InputAction @Jump => m_Wrapper.m_PlayerMove_Jump;
         public InputAction @Wall_Run => m_Wrapper.m_PlayerMove_Wall_Run;
@@ -323,6 +356,9 @@ public class @PlayerInput : IInputActionCollection, IDisposable
                 @Move.started -= m_Wrapper.m_PlayerMoveActionsCallbackInterface.OnMove;
                 @Move.performed -= m_Wrapper.m_PlayerMoveActionsCallbackInterface.OnMove;
                 @Move.canceled -= m_Wrapper.m_PlayerMoveActionsCallbackInterface.OnMove;
+                @Look.started -= m_Wrapper.m_PlayerMoveActionsCallbackInterface.OnLook;
+                @Look.performed -= m_Wrapper.m_PlayerMoveActionsCallbackInterface.OnLook;
+                @Look.canceled -= m_Wrapper.m_PlayerMoveActionsCallbackInterface.OnLook;
                 @Run.started -= m_Wrapper.m_PlayerMoveActionsCallbackInterface.OnRun;
                 @Run.performed -= m_Wrapper.m_PlayerMoveActionsCallbackInterface.OnRun;
                 @Run.canceled -= m_Wrapper.m_PlayerMoveActionsCallbackInterface.OnRun;
@@ -339,6 +375,9 @@ public class @PlayerInput : IInputActionCollection, IDisposable
                 @Move.started += instance.OnMove;
                 @Move.performed += instance.OnMove;
                 @Move.canceled += instance.OnMove;
+                @Look.started += instance.OnLook;
+                @Look.performed += instance.OnLook;
+                @Look.canceled += instance.OnLook;
                 @Run.started += instance.OnRun;
                 @Run.performed += instance.OnRun;
                 @Run.canceled += instance.OnRun;
@@ -355,6 +394,7 @@ public class @PlayerInput : IInputActionCollection, IDisposable
     public interface IPlayerMoveActions
     {
         void OnMove(InputAction.CallbackContext context);
+        void OnLook(InputAction.CallbackContext context);
         void OnRun(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
         void OnWall_Run(InputAction.CallbackContext context);

@@ -14,6 +14,14 @@
                     "interactions": ""
                 },
                 {
+                    "name": "Look",
+                    "type": "Value",
+                    "id": "776cb9a3-6f1a-4031-ae6b-3e9a7a61caf1",
+                    "expectedControlType": "Vector2",
+                    "processors": "NormalizeVector2",
+                    "interactions": ""
+                },
+                {
                     "name": "Run",
                     "type": "Value",
                     "id": "c3b6e7f1-ee54-447b-bd5c-c3f6119b3528",
@@ -207,7 +215,7 @@
                 {
                     "name": "",
                     "id": "a23f4253-8f98-499c-964b-1722b21407e9",
-                    "path": "<Gamepad>/rightShoulder",
+                    "path": "<Gamepad>/buttonSouth",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -218,11 +226,33 @@
                 {
                     "name": "",
                     "id": "c7468ee3-269f-44c3-b5a4-e44bbc3fba45",
-                    "path": "<Keyboard>/ctrl",
+                    "path": "<Keyboard>/space",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
                     "action": "Wall_Run",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "00c96283-c5de-4ee0-92ed-fee704b82cd5",
+                    "path": "<Mouse>/delta",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Look",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e616df17-e068-48ea-91f7-0ae50673002f",
+                    "path": "<Gamepad>/rightStick",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Look",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
