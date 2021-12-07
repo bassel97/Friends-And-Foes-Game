@@ -11,6 +11,11 @@ public class CanWallRunDecision : Decision
 
         bool canWallRun = playerController.IsWallRight || playerController.IsWallLeft;
 
-        return canWallRun && playerController.IsWallRunPressed;
+        if (canWallRun && playerController.IsWallRunPressed)
+        {
+            playerController.IsJumpPressed = false;
+            return true;
+        }
+        return false;
     }
 }

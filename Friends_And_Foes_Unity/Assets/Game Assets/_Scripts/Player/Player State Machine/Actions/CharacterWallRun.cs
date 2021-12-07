@@ -49,6 +49,8 @@ public class CharacterWallRun : Action
 
             playerController.Y_Velocity += (playerController.Gravity * GravityMultiplier) * Time.deltaTime;
         }
+
+        playerController.Animator.SetBool("IsWallLeft", playerController.IsWallLeft);
     }
 
     public override void UpdateAction(StateController controller)

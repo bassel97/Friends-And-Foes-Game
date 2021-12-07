@@ -9,7 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 244d13cc80f13b242bf2bb351cad33cf, type: 3}
-  m_Name: Action_Character Wall Run Jump
+  m_Script: {fileID: 11500000, guid: 730adf63d681e814996f2cbf5ed692d1, type: 3}
+  m_Name: Action_Set Animator Trigger (Wall Run)
   m_EditorClassIdentifier: 
-  WallJumpVelocity: 25
+  TriggerName: WallRun

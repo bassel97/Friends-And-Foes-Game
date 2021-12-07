@@ -32,6 +32,7 @@ public class CharacterWallRunJump : Action
             _rigidBodyVelocityBoost.z *= WallJumpVelocity;
 
             playerController.RigidBodyVelocityBoost = _rigidBodyVelocityBoost;
+            playerController.Animator.SetTrigger("Jump");
         }
     }
 }

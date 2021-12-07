@@ -9,6 +9,9 @@ public class PlayerController : CharacterStateController
     [Header("Movement")] [SerializeField] float _playerSpeed = 1;
     [SerializeField] float _acceleration = 10.0f;
 
+    // Camera Variables
+    [SerializeField] public Transform CameraTransform;
+
     // Jump Variables
     [SerializeField] LayerMask _obstaclesCollisionMask;
     [SerializeField] float _jumpHeight = 4.0f;
@@ -56,7 +59,7 @@ public class PlayerController : CharacterStateController
 
     public bool IsRunning { get { return _isRunning; } }
     public bool IsGrounded { get { return _isGrounded; } }
-    
+
     public bool IsWallRight { get { return _isWallRight; } }
     public bool IsWallLeft { get { return _isWallLeft; } }
 
@@ -111,6 +114,7 @@ public class PlayerController : CharacterStateController
         bool hit = Physics.Raycast(groundedRayOrigin, Vector3.down, rayLength, _obstaclesCollisionMask);
         Debug.DrawRay(groundedRayOrigin, Vector3.down * rayLength, Color.red);
         _isGrounded = hit;
+        _animator.SetBool("IsGrounded", _isGrounded);
 
         // Set wall Right
         Vector3 wallRayOrigin = _bounds.center;
@@ -125,7 +129,9 @@ public class PlayerController : CharacterStateController
         _animator.SetFloat("Speed", groundSpeedValue);
 
         // Resetting Boost
-        _rigidBodyVelocityBoost = Vector3.Lerp(_rigidBodyVelocityBoost, Vector3.zero, Time.deltaTime * 10.0f);
+        _rigidBodyVelocityBoost = Vector3.Lerp(_rigidBodyVelocityBoost, Vector3.zero, Time.deltaTime * 3.0f);
+        if (IsGrounded)
+            _rigidBodyVelocityBoost = Vector3.zero;
     }
 
     protected override void FixedUpdate()
@@ -146,7 +152,7 @@ public class PlayerController : CharacterStateController
 
     private void HandlePlayerInputRunning(InputAction.CallbackContext context)
     {
-        
+
         _isRunning = (float)context.ReadValueAsObject() > 0.0f;
     }
 
